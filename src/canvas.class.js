@@ -992,8 +992,7 @@
         return target;
       }
 
-      // then check all of the objects on canvas
-      // Cache all targets where their bounding box contains point.
+      // Iterate all objects testing each against pointer location and pixel transparency where needed
       for (var i = this._objects.length; i--; ) {
         if (this._objects[i] && this.containsPoint(e, this._objects[i])) {
           if (this.perPixelTargetFind || this._objects[i].perPixelTargetFind) {
