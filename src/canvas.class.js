@@ -994,32 +994,26 @@
 
       // then check all of the objects on canvas
       // Cache all targets where their bounding box contains point.
-      var possibleTargets = [];
       for (var i = this._objects.length; i--; ) {
         if (this._objects[i] && this.containsPoint(e, this._objects[i])) {
           if (this.perPixelTargetFind || this._objects[i].perPixelTargetFind) {
-            possibleTargets[possibleTargets.length] = this._objects[i];
-          }
-          else {
-            target = this._objects[i];
-            this.relatedTarget = target;
-            break;
+            if (!this._isTargetTransparent(this._objects[i], pointer.x, pointer.y)) {
+              target = this._objects[i];
+              this.relatedTarget = target;
+              break;
+              }
+            }
+            else {
+              target = this._objects[i];
+              this.relatedTarget = target;
+              break;
+            }
           }
         }
-      }
-      for (var j = 0, len = possibleTargets.length; j < len; j++) {
-        pointer = this.getPointer(e);
-        var isTransparent = this._isTargetTransparent(possibleTargets[j], pointer.x, pointer.y);
-        if (!isTransparent) {
-          target = possibleTargets[j];
-          this.relatedTarget = target;
-          break;
+        if (target && target.selectable) {
+          return target;
         }
-      }
-      if (target && target.selectable) {
-        return target;
-      }
-    },
+     },
 
     /**
      * Returns pointer coordinates relative to canvas.
